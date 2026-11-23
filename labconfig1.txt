@@ -1,0 +1,231 @@
+
+ARISTA-SW1#show ip interface brief
+                                                                        Address
+Interface        IP Address         Status      Protocol         MTU    Owner
+---------------- ------------------ ----------- ------------- --------- -------
+Ethernet1        10.50.30.2/30      up          up              1500
+Management1      unassigned         up          up              1500
+Vlan10           10.50.10.1/24      up          up              1500
+Vlan20           10.50.40.1/24      up          up              1500
+
+ARISTA-SW1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    Et4, Et5, Et6, Et7, Et8
+10    SERVERS                          active    Cpu, Et2
+20    CLIENTS                          active    Cpu, Et3
+
+ARISTA-SW1#show ip ospf neighbor
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.255.255.1    1        default  1   FULL/DR                00:00:34    10.50.30.1      Ethernet1
+ARISTA-SW1#show ip ospf interface
+Vlan20 is up
+  Interface Address 10.50.40.1/24, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.255.255.10
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0 (Passive Interface)
+  No authentication
+  Traffic engineering is disabled
+  TI-LFA protection is disabled
+Vlan10 is up
+  Interface Address 10.50.10.1/24, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.255.255.10
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0 (Passive Interface)
+  No authentication
+  Traffic engineering is disabled
+  TI-LFA protection is disabled
+Ethernet1 is up
+  Interface Address 10.50.30.2/30, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State Backup DR, Priority 1
+  Interface Speed: 1000 mbps
+  Designated Router is 10.255.255.1
+  Backup Designated Router is 10.255.255.10
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+  TI-LFA protection is disabled
+ARISTA-SW1#show ip route ospf
+
+VRF: default
+Source Codes:
+       C - connected, S - static, K - kernel,
+       O - OSPF, O IA - OSPF inter area, O E1 - OSPF external type 1,
+       O E2 - OSPF external type 2, O N1 - OSPF NSSA external type 1,
+       O N2 - OSPF NSSA external type2, O3 - OSPFv3,
+       O3 IA - OSPFv3 inter area, O3 E1 - OSPFv3 external type 1,
+       O3 E2 - OSPFv3 external type 2,
+       O3 N1 - OSPFv3 NSSA external type 1,
+       O3 N2 - OSPFv3 NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route,
+       CL - CBF Leaked Route
+
+ O        10.50.20.0/24 [110/11]
+           via 10.50.30.1, Ethernet1
+ O        10.50.50.0/30 [110/12]
+           via 10.50.30.1, Ethernet1
+ O        10.50.110.0/24 [110/22]
+           via 10.50.30.1, Ethernet1
+ O        10.50.120.0/24 [110/22]
+           via 10.50.30.1, Ethernet1
+ O        10.255.255.1/32 [110/10]
+           via 10.50.30.1, Ethernet1
+ O        10.255.255.2/32 [110/11]
+           via 10.50.30.1, Ethernet1
+
+ARISTA-SW1#show ip route
+
+VRF: default
+Source Codes:
+       C - connected, S - static, K - kernel,
+       O - OSPF, O IA - OSPF inter area, O E1 - OSPF external type 1,
+       O E2 - OSPF external type 2, O N1 - OSPF NSSA external type 1,
+       O N2 - OSPF NSSA external type2, O3 - OSPFv3,
+       O3 IA - OSPFv3 inter area, O3 E1 - OSPFv3 external type 1,
+       O3 E2 - OSPFv3 external type 2,
+       O3 N1 - OSPFv3 NSSA external type 1,
+       O3 N2 - OSPFv3 NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route,
+       CL - CBF Leaked Route
+
+Gateway of last resort is not set
+
+ C        10.50.10.0/24
+           directly connected, Vlan10
+ O        10.50.20.0/24 [110/11]
+           via 10.50.30.1, Ethernet1
+ C        10.50.30.0/30
+           directly connected, Ethernet1
+ C        10.50.40.0/24
+           directly connected, Vlan20
+ O        10.50.50.0/30 [110/12]
+           via 10.50.30.1, Ethernet1
+ O        10.50.110.0/24 [110/22]
+           via 10.50.30.1, Ethernet1
+ O        10.50.120.0/24 [110/22]
+           via 10.50.30.1, Ethernet1
+ O        10.255.255.1/32 [110/10]
+           via 10.50.30.1, Ethernet1
+ O        10.255.255.2/32 [110/11]
+           via 10.50.30.1, Ethernet1
+
+
+
+
+ARISTA-SW2#show ip interface brief
+                                                                        Address
+Interface       IP Address          Status      Protocol         MTU    Owner
+--------------- ------------------- ----------- ------------- --------- -------
+Ethernet1       10.50.50.2/30       up          up              1500
+Management1     unassigned          up          up              1500
+Vlan110         10.50.110.1/24      up          up              1500
+Vlan120         10.50.120.1/24      up          up              1500
+
+ARISTA-SW2#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    Et4, Et5, Et6, Et7, Et8
+110   SITE2-SERVERS                    active    Cpu, Et2
+120   SITE2-CLIENTS                    active    Cpu, Et3
+
+ARISTA-SW2#show ip ospf neighbor
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.255.255.2    1        default  1   FULL/DR                00:00:37    10.50.50.1      Ethernet1
+ARISTA-SW2#show ip route ospf
+
+VRF: default
+Source Codes:
+       C - connected, S - static, K - kernel,
+       O - OSPF, O IA - OSPF inter area, O E1 - OSPF external type 1,
+       O E2 - OSPF external type 2, O N1 - OSPF NSSA external type 1,
+       O N2 - OSPF NSSA external type2, O3 - OSPFv3,
+       O3 IA - OSPFv3 inter area, O3 E1 - OSPFv3 external type 1,
+       O3 E2 - OSPFv3 external type 2,
+       O3 N1 - OSPFv3 NSSA external type 1,
+       O3 N2 - OSPFv3 NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route,
+       CL - CBF Leaked Route
+
+ O        10.50.10.0/24 [110/22]
+           via 10.50.50.1, Ethernet1
+ O        10.50.20.0/24 [110/11]
+           via 10.50.50.1, Ethernet1
+ O        10.50.30.0/30 [110/12]
+           via 10.50.50.1, Ethernet1
+ O        10.50.40.0/24 [110/22]
+           via 10.50.50.1, Ethernet1
+ O        10.255.255.1/32 [110/11]
+           via 10.50.50.1, Ethernet1
+ O        10.255.255.2/32 [110/10]
+           via 10.50.50.1, Ethernet1
+
+ARISTA-SW2#show ip route
+
+VRF: default
+Source Codes:
+       C - connected, S - static, K - kernel,
+       O - OSPF, O IA - OSPF inter area, O E1 - OSPF external type 1,
+       O E2 - OSPF external type 2, O N1 - OSPF NSSA external type 1,
+       O N2 - OSPF NSSA external type2, O3 - OSPFv3,
+       O3 IA - OSPFv3 inter area, O3 E1 - OSPFv3 external type 1,
+       O3 E2 - OSPFv3 external type 2,
+       O3 N1 - OSPFv3 NSSA external type 1,
+       O3 N2 - OSPFv3 NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route,
+       CL - CBF Leaked Route
+
+Gateway of last resort is not set
+
+ O        10.50.10.0/24 [110/22]
+           via 10.50.50.1, Ethernet1
+ O        10.50.20.0/24 [110/11]
+           via 10.50.50.1, Ethernet1
+ O        10.50.30.0/30 [110/12]
+           via 10.50.50.1, Ethernet1
+ O        10.50.40.0/24 [110/22]
+           via 10.50.50.1, Ethernet1
+ C        10.50.50.0/30
+           directly connected, Ethernet1
+ C        10.50.110.0/24
+           directly connected, Vlan110
+ C        10.50.120.0/24
+           directly connected, Vlan120
+ O        10.255.255.1/32 [110/11]
+           via 10.50.50.1, Ethernet1
+ O        10.255.255.2/32 [110/10]
+           via 10.50.50.1, Ethernet1
+
+ARISTA-SW2#
+

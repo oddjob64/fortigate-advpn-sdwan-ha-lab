@@ -1,0 +1,116 @@
+HUB1 (root) # diagnose sys sdwan health-check
+Health Check(VPN_SLA):
+Seq(3 S1-MPLS): state(alive), packet-loss(0.000%) latency(4.552), jitter(3.235), mos(4.399), bandwidth-up(999996), bandwidth-dw(999969), bandwidth-bi(1999965) sla_map=0x0
+Seq(2 S1-ISP): state(dead), packet-loss(100.000%) sla_map=0x0
+
+HUB1 (root) # diagnose sys sdwan member
+Member(2): transport-group: 0, interface: S1-ISP, flags=0xc , gateway: 10.160.9.1, source 10.10.2.1, priority: 1 1024, weight: 0
+Member(3): transport-group: 0, interface: S1-MPLS, flags=0xc , gateway: 10.160.8.1, source 10.10.1.1, priority: 1 1024, weight: 0
+Member(4): transport-group: 0, interface: port1, flags=0x0 ,source 10.160.6.1, priority: 1 1024, weight: 0
+Member(5): transport-group: 0, interface: port2, flags=0x0 ,source 10.160.7.1, priority: 1 1024, weight: 0
+
+HUB1 (root) # diagnose vpn tunnel list
+list all ipsec tunnel in vd 0
+------------------------------------------------------
+name=S2-EPL ver=1 serial=3 10.160.6.1:0->0.0.0.0:0 nexthop=0.0.0.0 tun_id=10.0.0.1 tun_id6=::10.0.0.1 status=up dst_mtu=0 weight=1
+bound_if=3 real_if=0 lgwy=static/1 tun=intf mode=dialup/2 encap=none/552 options[0228]=npu frag-rfc  role=primary accept_traffic=1 overlay_id=0
+
+proxyid_num=0 child_num=0 refcnt=2 ilast=42950232 olast=42950232 ad=/0
+stat: rxp=0 txp=0 rxb=0 txb=0
+dpd: mode=on-idle on=0 status=ok idle=20000ms retry=3 count=0 seqno=0
+natt: mode=none draft=0 interval=0 remote_port=0
+fec: egress=0 ingress=0
+------------------------------------------------------
+name=S1-MPLS ver=1 serial=2 10.160.6.1:0->10.160.8.1:0 nexthop=10.160.6.254 tun_id=10.160.8.1 tun_id6=::10.160.8.1 status=up dst_mtu=1500 weight=1
+bound_if=3 real_if=3 lgwy=static/1 tun=intf mode=auto/1 encap=none/552 options[0228]=npu frag-rfc  run_state=0 role=sync-primary accept_traffic=1 overlay_id=0
+
+proxyid_num=1 child_num=0 refcnt=4 ilast=0 olast=0 ad=/0
+stat: rxp=2588 txp=1704 rxb=643800 txb=106268
+dpd: mode=on-demand on=1 status=ok idle=20000ms retry=3 count=0 seqno=0
+natt: mode=none draft=0 interval=0 remote_port=0
+fec: egress=0 ingress=0
+proxyid=ToSiteMPLS proto=0 sa=1 ref=17 serial=1
+  src: 0:0.0.0.0-255.255.255.255:0
+  dst: 0:0.0.0.0-255.255.255.255:0
+  SA:  ref=3 options=30203 type=00 soft=0 mtu=1438 expire=15220/0B replaywin=2048
+       seqno=40018a34 esn=0 replaywin_lastseq=00017e1b qat=0 rekey=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=16026/16295
+  dec: spi=4c66d63e esp=aes key=16 4e181966aaf9643f6e66683665113ee1
+       ah=sha1 key=20 734f0b272b895f399e1d17a08d5b275aa71f508f
+  enc: spi=9a014dd1 esp=aes key=16 1e82ed888b4863223d5b1c5e06bd2344
+       ah=sha1 key=20 c52b2636a95ad15ef8c8e915322468e95f9d6e44
+  dec:pkts/bytes=2588/643800, enc:pkts/bytes=1704/217168
+  npu_flag=00 npu_lgwy=0.0.0.0:0 npu_rgwy=0.0.0.0:0
+npu_selid=1 dec_npuid=0 enc_npuid=0
+------------------------------------------------------
+name=S1-ISP ver=1 serial=1 10.160.7.1:0->10.160.9.1:0 nexthop=10.160.7.254 tun_id=10.160.9.1 tun_id6=::10.160.9.1 status=up dst_mtu=1500 weight=1
+bound_if=4 real_if=4 lgwy=static/1 tun=intf mode=auto/1 encap=none/552 options[0228]=npu frag-rfc  run_state=0 role=sync-primary accept_traffic=1 overlay_id=0
+
+proxyid_num=1 child_num=0 refcnt=4 ilast=0 olast=0 ad=/0
+stat: rxp=1293 txp=1288 rxb=52782 txb=52597
+dpd: mode=on-demand on=1 status=ok idle=20000ms retry=3 count=0 seqno=0
+natt: mode=none draft=0 interval=0 remote_port=0
+fec: egress=0 ingress=0
+proxyid=ToBranchISP1 proto=0 sa=1 ref=17 serial=1
+  src: 0:0.0.0.0-255.255.255.255:0
+  dst: 0:0.0.0.0-255.255.255.255:0
+  SA:  ref=3 options=30203 type=00 soft=0 mtu=1438 expire=15227/0B replaywin=2048
+       seqno=40014720 esn=0 replaywin_lastseq=0001489f qat=0 rekey=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=16033/16301
+  dec: spi=4c66d63f esp=aes key=16 bf7cbfbf58094b3129d98f16627af245
+       ah=sha1 key=20 30d5b7e7818253beb7677be2dc26a85922556d8c
+  enc: spi=9a014dd2 esp=aes key=16 64f1cb1449db31f2dc9675c606b79ba8
+       ah=sha1 key=20 6407f36813030f5a06d2e1a1c5ee24b2adc7080f
+  dec:pkts/bytes=1293/52782, enc:pkts/bytes=1270/133216
+  npu_flag=00 npu_lgwy=0.0.0.0:0 npu_rgwy=0.0.0.0:0
+npu_selid=0 dec_npuid=0 enc_npuid=0
+------------------------------------------------------
+name=S2-ISP ver=1 serial=4 10.160.7.1:0->0.0.0.0:0 nexthop=10.160.7.254 tun_id=10.0.0.2 tun_id6=::10.0.0.2 status=up dst_mtu=0 weight=1
+bound_if=4 real_if=0 lgwy=static/1 tun=intf mode=dialup/2 encap=none/552 options[0228]=npu frag-rfc  role=primary accept_traffic=1 overlay_id=0
+
+proxyid_num=0 child_num=0 refcnt=2 ilast=42950232 olast=42950232 ad=/0
+stat: rxp=0 txp=0 rxb=0 txb=0
+dpd: mode=on-idle on=0 status=ok idle=20000ms retry=3 count=0 seqno=0
+natt: mode=none draft=0 interval=0 remote_port=0
+fec: egress=0 ingress=0
+
+HUB1 (root) # get vpn ipsec tunnel summary
+'S1-MPLS' 10.160.8.1:0  selectors(total,up): 1/1  rx(pkt,err): 2588/0  tx(pkt,err): 1704/2
+'S1-ISP' 10.160.9.1:0  selectors(total,up): 1/1  rx(pkt,err): 1293/0  tx(pkt,err): 1288/18
+
+HUB1 (root) # show system vxlan
+config system vxlan
+    edit "VXLAN1"
+        set interface "VTEP-LO"
+        set vni 1000
+        set remote-ip "172.31.255.3"
+    next
+    edit "VXLAN3"
+        set interface "VTEP-LO"
+        set vni 300
+        set remote-ip "172.31.255.3"
+    next
+    edit "VXLAN500"
+        set interface "VTEP-LO"
+        set vni 5000
+        set remote-ip "172.31.255.3"
+    next
+end
+
+HUB1 (root) # show system switch-interface
+config system switch-interface
+    edit "sw1"
+        set vdom "root"
+        set member "port3" "VXLAN1"
+    next
+    edit "CORP1-SW"
+        set vdom "root"
+        set member "port5" "VXLAN3"
+    next
+    edit "V500-BRIDGE"
+        set vdom "root"
+        set member "MLAG-V500" "VXLAN500"
+    next
+end
+
+HUB1 (root) #
