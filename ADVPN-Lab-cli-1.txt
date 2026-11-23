@@ -1,0 +1,1617 @@
+HUB (root) # show system interface HUB-MLAG
+config system interface
+    edit "HUB-MLAG"
+        set vdom "root"
+        set type aggregate
+        set member "port8" "port9"
+        set lldp-transmission enable
+        set snmp-index 26
+    next
+end
+
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: up
+  link failure count: 0
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+  LACP state: established
+  LACPDUs RX/TX: 8/57
+  actor state: ASAIEE
+  actor port number/key/priority: 1 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 11 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+member: port9
+  index: 1
+  link status: up
+  link failure count: 0
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+  LACP state: established
+  LACPDUs RX/TX: 6/59
+  actor state: ASAIEE
+  actor port number/key/priority: 2 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 32779 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+AristaHUBsw1#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.2
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :        inconsistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw1#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw1#show lacp peer
+State: A = Active, P = Passive; S=ShortTimeout, L=LongTimeout;
+       G = Aggregable, I = Individual; s+=InSync, s-=OutOfSync;
+       C = Collecting, X = state machine expired,
+       D = Distributing, d = default neighbor state
+                 |                        Partner
+ Port    Status  | Sys-id                    Port#   State     OperKey  PortPri
+------ ----------|------------------------- ------- --------- --------- -------
+Port Channel Port-Channel100*:
+ Et11    Bundled | FFFF,0c-7e-d8-d5-00-07        1   ALGs+CD    0x0011      255
+Port Channel Port-Channel2000:
+ Et9     Bundled | 8000,0c-e2-a5-99-88-ad        9   ALGs+CD    0x07d0    32768
+ Et10    Bundled | 8000,0c-e2-a5-99-88-ad       10   ALGs+CD    0x07d0    32768
+
+* - Only local interfaces for MLAGs are displayed. Connect to the peer to
+    see the state for peer interfaces.
+AristaHUBsw1#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0c2d.5f50.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 2 minutes, 20 seconds
+  3 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 94 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 817 bps (0.0% with framing overhead), 1 packets/sec
+     18 packets input, 2276 bytes
+     Received 0 broadcasts, 18 multicast
+     0 input errors, 0 input discards
+     146 packets output, 16825 bytes
+     Sent 18 broadcasts, 128 multicast
+     0 output errors, 0 output discards
+AristaHUBsw1#
+
+AristaHUBsw2#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :        inconsistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw2#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw2#show lacp peer
+State: A = Active, P = Passive; S=ShortTimeout, L=LongTimeout;
+       G = Aggregable, I = Individual; s+=InSync, s-=OutOfSync;
+       C = Collecting, X = state machine expired,
+       D = Distributing, d = default neighbor state
+                 |                        Partner
+ Port    Status  | Sys-id                    Port#   State     OperKey  PortPri
+------ ----------|------------------------- ------- --------- --------- -------
+Port Channel Port-Channel100*:
+ Et11    Bundled | FFFF,0c-7e-d8-d5-00-07        2   ALGs+CD    0x0011      255
+Port Channel Port-Channel2000:
+ Et9     Bundled | 8000,0c-2d-5f-d2-f9-6b        9   ALGs+CD    0x07d0    32768
+ Et10    Bundled | 8000,0c-2d-5f-d2-f9-6b       10   ALGs+CD    0x07d0    32768
+
+* - Only local interfaces for MLAGs are displayed. Connect to the peer to
+    see the state for peer interfaces.
+AristaHUBsw2#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 2 minutes, 54 seconds
+  2 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 35 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 46 bps (0.0% with framing overhead), 0 packets/sec
+     13 packets input, 1760 bytes
+     Received 0 broadcasts, 13 multicast
+     0 input errors, 0 input discards
+     13 packets output, 2420 bytes
+     Sent 0 broadcasts, 13 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#
+
+
+
+AristaHUBsw2#show mlag config-sanity
+No global configuration inconsistencies found.
+
+Interface configuration inconsistencies:
+   Feature               Attribute     Interfaces     Local value    Peer value
+------------ ----------------------- -------------- ---------------- ----------
+  bridging     access-vlan mlag100          Po100               -           100
+
+ AristaHUBsw2#show mlag detail
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :        inconsistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+MLAG Detailed Status:
+State                           :              secondary
+Peer State                      :                primary
+State changes                   :                      2
+Last state change time          :            0:12:05 ago
+Hardware ready                  :                   True
+Failover                        :                  False
+Failover Cause(s)               :                Unknown
+Last failover change time       :                  never
+Secondary from failover         :                  False
+Peer MAC address                :      0c:2d:5f:d2:f9:6b
+Peer MAC routing supported      :                  False
+Reload delay                    :            300 seconds
+Non-MLAG reload delay           :            300 seconds
+Ports errdisabled               :                  False
+Lacp standby                    :                  False
+Configured heartbeat interval   :                4000 ms
+Effective heartbeat interval    :                4000 ms
+Heartbeat timeout               :               60000 ms
+Last heartbeat timeout          :                  never
+Heartbeat timeouts since reboot :                      0
+UDP heartbeat alive             :                   True
+Heartbeats sent/received        :                205/184
+Peer monotonic clock offset     :   38846.812786 seconds
+Agent should be running         :                   True
+P2p mount state changes         :                      1
+Fast MAC redirection enabled    :                  False
+Peer-link forwarding restricted :                  False
+Interface activation interlock  :            unsupported
+
+AristaHUBsw2#show interfaces Port-Channel2000 switchport
+Name: Po2000
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+MAC Address Learning: enabled
+Dot1q ethertype/TPID: 0x8100 (active)
+Dot1q VLAN Tag: Allowed
+Egress priority tagging: disabled
+Access Mode VLAN: 1 (default)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: disabled
+Trunking VLANs Enabled: ALL
+Static Trunk Groups: MLAG-PEER
+Dynamic Trunk Groups:
+Source interface filtering: enabled
+VLAN forwarding mode: allowedVlansOnly
+MAC-based VLAN assignment: disabled
+Port isolation: disabled
+
+AristaHUBsw2#show interfaces Port-Channel100 switchport
+Name: Po100
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+MAC Address Learning: enabled
+Dot1q ethertype/TPID: 0x8100 (active)
+Dot1q VLAN Tag: Allowed
+Egress priority tagging: disabled
+Access Mode VLAN: 1 (default)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: disabled
+Trunking VLANs Enabled: 100,200,300
+Static Trunk Groups:
+Dynamic Trunk Groups:
+Source interface filtering: enabled
+VLAN forwarding mode: allowedVlansOnly
+MAC-based VLAN assignment: disabled
+Port isolation: disabled
+
+AristaHUBsw2#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    Et1, Et2, Et3, Et4, Et5, Et6
+                                                 Et7, Et8, Et12, Po2000
+100   MGMT                             active    PEt4, PEt5, PEt6, Po100, Po2000
+200   VXLAN200                         active    Po100, Po2000
+300   CORP1                            active    PEt2, PEt7, PEt8, Po100, Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+AristaHUBsw2#
+
+AristaHUBsw1#show mlag config-sanity
+No global configuration inconsistencies found.
+
+Interface configuration inconsistencies:
+   Feature               Attribute     Interfaces     Local value    Peer value
+------------ ----------------------- -------------- ---------------- ----------
+  bridging     access-vlan mlag100          Po100             100             -
+
+AristaHUBsw1#show mlag detail
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.2
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :        inconsistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+MLAG Detailed Status:
+State                           :                 primary
+Peer State                      :               secondary
+State changes                   :                       2
+Last state change time          :             0:11:42 ago
+Hardware ready                  :                    True
+Failover                        :                   False
+Failover Cause(s)               :                 Unknown
+Last failover change time       :                   never
+Secondary from failover         :                   False
+Peer MAC address                :       0c:e2:a5:99:88:ad
+Peer MAC routing supported      :                   False
+Reload delay                    :             300 seconds
+Non-MLAG reload delay           :             300 seconds
+Peer ports errdisabled          :                   False
+Lacp standby                    :                   False
+Configured heartbeat interval   :                 4000 ms
+Effective heartbeat interval    :                 4000 ms
+Heartbeat timeout               :                60000 ms
+Last heartbeat timeout          :                   never
+Heartbeat timeouts since reboot :                       0
+UDP heartbeat alive             :                    True
+Heartbeats sent/received        :                 338/179
+Peer monotonic clock offset     :   -38845.519675 seconds
+Agent should be running         :                    True
+P2p mount state changes         :                       1
+Fast MAC redirection enabled    :                   False
+Peer-link forwarding restricted :                   False
+Interface activation interlock  :             unsupported
+
+AristaHUBsw1#show interfaces Port-Channel2000 switchport
+Name: Po2000
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+MAC Address Learning: enabled
+Dot1q ethertype/TPID: 0x8100 (active)
+Dot1q VLAN Tag: Allowed
+Egress priority tagging: disabled
+Access Mode VLAN: 100 (MGMT)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: disabled
+Trunking VLANs Enabled: ALL
+Static Trunk Groups: MLAG-PEER
+Dynamic Trunk Groups:
+Source interface filtering: enabled
+VLAN forwarding mode: allowedVlansOnly
+MAC-based VLAN assignment: disabled
+Port isolation: disabled
+
+AristaHUBsw1#show interfaces Port-Channel100 switchport
+Name: Po100
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+MAC Address Learning: enabled
+Dot1q ethertype/TPID: 0x8100 (active)
+Dot1q VLAN Tag: Allowed
+Egress priority tagging: disabled
+Access Mode VLAN: 100 (MGMT)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: disabled
+Trunking VLANs Enabled: 100,200,300
+Static Trunk Groups:
+Dynamic Trunk Groups:
+Source interface filtering: enabled
+VLAN forwarding mode: allowedVlansOnly
+MAC-based VLAN assignment: disabled
+Port isolation: disabled
+
+AristaHUBsw1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    PEt1, PEt2, PEt3, PEt4, PEt5
+                                                 PEt6, PEt7, PEt8, PEt12, Po2000
+100   MGMT                             active    Cpu, Et4, Et5, Et6, Po100
+                                                 Po2000
+200   VXLAN200                         active    Cpu, Po100, Po2000
+300   CORP1                            active    Cpu, Et2, Et7, Et8, Po100
+                                                 Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+AristaHUBsw1#
+
+
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: up
+  link failure count: 0
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+  LACP state: established
+  LACPDUs RX/TX: 25/74
+  actor state: ASAIEE
+  actor port number/key/priority: 1 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 11 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+member: port9
+  index: 1
+  link status: up
+  link failure count: 0
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+  LACP state: established
+  LACPDUs RX/TX: 23/76
+  actor state: ASAIEE
+  actor port number/key/priority: 2 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 32779 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+
+HUB (root) # config system interface
+
+HUB (interface) # edit port8
+
+HUB (port8) # set status down
+
+HUB (port8) # next
+e
+HUB (interface) # end
+
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: down
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+
+member: port9
+  index: 1
+  link status: up
+  link failure count: 0
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+  LACP state: established
+  LACPDUs RX/TX: 27/80
+  actor state: ASAIEE
+  actor port number/key/priority: 2 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 32779 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+
+HUB (root) # config system interface
+
+HUB (interface) #     edit "port8"
+
+HUB (port8) #         set status up
+
+HUB (port8) #     next
+
+HUB (interface) # end
+
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: up
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+  LACP state: established
+  LACPDUs RX/TX: 35/81
+  actor state: ASAIEE
+  actor port number/key/priority: 1 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 11 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+member: port9
+  index: 1
+  link status: up
+  link failure count: 0
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+  LACP state: established
+  LACPDUs RX/TX: 29/82
+  actor state: ASAIEE
+  actor port number/key/priority: 2 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 32779 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+
+HUB (root) # config system interface
+
+HUB (interface) #     edit "port9"
+
+HUB (port9) #         set status down
+
+HUB (port9) #     next
+
+HUB (interface) # end
+
+HUB (root) #
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: up
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+  LACP state: established
+  LACPDUs RX/TX: 35/81
+  actor state: ASAIEE
+  actor port number/key/priority: 1 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 11 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+member: port9
+  index: 1
+  link status: down
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+
+
+HUB (root) # config system interface
+
+HUB (interface) #     edit "port9"
+
+HUB (port9) #         set status up
+
+HUB (port9) #     next
+
+HUB (interface) # end
+
+HUB (root) # 
+
+
+
+AristaHUBsw1#show hostname
+Hostname: AristaHUBsw1
+FQDN:     AristaHUBsw1.contosoxlabs.corp
+AristaHUBsw1#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.2
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw1#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw1#show mlag config-sanity
+No global configuration inconsistencies found.
+
+No per interface configuration inconsistencies found.
+
+AristaHUBsw1#show port-channel summary
+% Invalid input
+AristaHUBsw1#show lacp neighbor
+% Invalid input
+AristaHUBsw1#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0c2d.5f50.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 19 minutes, 52 seconds
+  5 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 78 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 871 bps (0.0% with framing overhead), 1 packets/sec
+     161 packets input, 20498 bytes
+     Received 27 broadcasts, 134 multicast
+     0 input errors, 0 input discards
+     1935 packets output, 212214 bytes
+     Sent 277 broadcasts, 1658 multicast
+     0 output errors, 0 output discards
+AristaHUBsw1#show interfaces Port-Channel2000
+Port-Channel2000 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0c2d.5f50.0009
+  Description: MLAG-PEER-LINK
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet9 , Full-duplex, 1Gb/s
+  ... Ethernet10 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 39 minutes, 13 seconds
+  2 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 1.79 kbps (0.0% with framing overhead), 2 packets/sec
+  5 minutes output rate 2.00 kbps (0.0% with framing overhead), 3 packets/sec
+     7694 packets input, 825549 bytes
+     Received 9 broadcasts, 318 multicast
+     0 input errors, 0 input discards
+     8783 packets output, 905412 bytes
+     Sent 355 broadcasts, 1057 multicast
+     0 output errors, 0 output discards
+AristaHUBsw1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    PEt1, PEt2, PEt3, PEt4, PEt5
+                                                 PEt6, PEt7, PEt8, Po2000
+100   MGMT                             active    Cpu, Et4, Et5, Et6, Po100
+                                                 Po2000
+200   VXLAN200                         active    Cpu, Po100, Po2000
+300   CORP1                            active    Cpu, Et2, Et7, Po100, Po2000
+400   SERVERS                          active    PEt12, Po100, Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+AristaHUBsw1#
+
+
+AristaHUBsw2#show hostname
+Hostname: AristaHUBsw2
+FQDN:     AristaHUBsw2
+AristaHUBsw2#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw2#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw2#show mlag config-sanity
+No global configuration inconsistencies found.
+
+No per interface configuration inconsistencies found.
+
+AristaHUBsw2#show port-channel summary
+% Invalid input
+AristaHUBsw2#show lacp neighbor
+% Invalid input
+AristaHUBsw2#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 19 minutes, 29 seconds
+  4 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 89 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 119 bps (0.0% with framing overhead), 0 packets/sec
+     147 packets input, 20784 bytes
+     Received 0 broadcasts, 135 multicast
+     0 input errors, 0 input discards
+     172 packets output, 29101 bytes
+     Sent 8 broadcasts, 137 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#show interfaces Port-Channel2000
+Port-Channel2000 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.0009
+  Description: MLAG-PEER-LINK
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet9 , Full-duplex, 1Gb/s
+  ... Ethernet10 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 40 minutes, 7 seconds
+  2 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 2.00 kbps (0.0% with framing overhead), 3 packets/sec
+  5 minutes output rate 1.78 kbps (0.0% with framing overhead), 2 packets/sec
+     8930 packets input, 918147 bytes
+     Received 373 broadcasts, 1080 multicast
+     0 input errors, 0 input discards
+     7815 packets output, 836706 bytes
+     Sent 9 broadcasts, 325 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    Et1, Et2, Et3, Et4, Et5, Et6
+                                                 Et7, Et8, Po2000
+100   MGMT                             active    PEt4, PEt5, PEt6, Po100, Po2000
+200   VXLAN200                         active    Po100, Po2000
+300   CORP1                            active    PEt2, PEt7, Po100, Po2000
+400   SERVERS                          active    Et12, Po100, Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+
+HUB (root) # get system status
+Version: FortiGate-VM64-KVM v7.4.12,build2902,260505 (GA.M)
+First GA patch build date: 230509
+Current Security Level: High
+Firmware Signature: certified
+Virus-DB: 1.00000(2018-04-09 18:07)
+Extended DB: 1.00000(2018-04-09 18:07)
+Extreme DB: 1.00000(2018-04-09 18:07)
+AV AI/ML Model: 0.00000(2001-01-01 00:00)
+IPS-DB: 6.00741(2015-12-01 02:30)
+IPS-ETDB: 6.00741(2015-12-01 02:30)
+APP-DB: 6.00741(2015-12-01 02:30)
+Proxy-IPS-DB: 6.00741(2015-12-01 02:30)
+Proxy-IPS-ETDB: 6.00741(2015-12-01 02:30)
+Proxy-APP-DB: 6.00741(2015-12-01 02:30)
+FMWP-DB: 26.00107(2026-10-21 18:18)
+IPS Malicious URL Database: 1.00001(2015-01-01 01:01)
+IoT-Detect: 0.00000(2022-08-17 17:31)
+OT-Detect-DB: 0.00000(2001-01-01 00:00)
+OT-Patch-DB: 0.00000(2001-01-01 00:00)
+OT-Threat-DB: 6.00741(2015-12-01 02:30)
+IPS-Engine: 7.00604(2026-04-13 22:28)
+Serial-Number: FGVMELTM26016918
+License Status: Valid
+License Expiration Date: 2026-11-02
+VM Resources: 1 CPU/2 allowed, 1993 MB RAM
+Log hard disk: Available
+Hostname: HUB
+Private Encryption: Disable
+Operation Mode: NAT
+Current virtual domain: root
+Max number of virtual domains: 2
+Virtual domains status: 1 in NAT mode, 0 in TP mode
+Virtual domain configuration: multiple
+FIPS-CC mode: disable
+Current HA mode: standalone
+Branch point: 2902
+Release Version Information: GA
+FortiOS x86-64: Yes
+System time: Thu Oct 22 23:34:45 2026
+Last reboot reason: power cycle
+
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: up
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+  LACP state: established
+  LACPDUs RX/TX: 77/123
+  actor state: ASAIEE
+  actor port number/key/priority: 1 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 11 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+member: port9
+  index: 1
+  link status: up
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+  LACP state: established
+  LACPDUs RX/TX: 76/125
+  actor state: ASAIEE
+  actor port number/key/priority: 2 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 32779 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+
+HUB (root) # show system interface HUB-MLAG
+config system interface
+    edit "HUB-MLAG"
+        set vdom "root"
+        set type aggregate
+        set member "port8" "port9"
+        set lldp-transmission enable
+        set snmp-index 26
+    next
+end
+
+HUB (root) # show system interface SERVERS-V400
+config system interface
+    edit "SERVERS-V400"
+        set vdom "root"
+        set ip 10.40.0.1 255.255.255.0
+        set allowaccess ping
+        set device-identification enable
+        set role lan
+        set snmp-index 27
+        set interface "HUB-MLAG"
+        set vlanid 400
+    next
+end
+
+HUB (root) #
+
+HUB (root) # get router info routing-table all
+Codes: K - kernel, C - connected, S - static, R - RIP, B - BGP
+       O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       V - BGP VPNv4
+       * - candidate default
+
+Routing table for VRF=0
+S*      0.0.0.0/0 [10/0] via 10.160.6.254, port1, [1/0]
+C       10.6.1.0/24 is directly connected, sw1
+C       10.10.1.1/32 is directly connected, S1-MPLS
+S       10.10.1.3/32 [10/0] via S1-MPLS tunnel 10.160.8.1, [1/0]
+C       10.10.2.1/32 is directly connected, S1-ISP
+S       10.10.2.3/32 [10/0] via S1-ISP tunnel 10.160.9.1, [1/0]
+C       10.10.3.0/24 is directly connected, S2-EPL
+C       10.10.3.1/32 is directly connected, S2-EPL
+C       10.10.4.0/24 is directly connected, S2-ISP
+C       10.10.4.1/32 is directly connected, S2-ISP
+B       10.12.1.0/24 [20/0] via 10.10.3.3 (recursive is directly connected, S2-EPL), 01:10:45, [1/0]
+O       10.30.0.0/24 [110/20] via 10.6.1.2, sw1, 00:40:54, [1/0]
+C       10.40.0.0/24 is directly connected, SERVERS-V400
+C       10.160.6.0/24 is directly connected, port1
+C       10.160.7.0/24 is directly connected, port2
+O       10.160.8.0/24 [110/20] via 10.160.6.254, port1, 11:35:35, [1/0]
+                      [110/20] via 10.160.7.254, port2, 11:35:35, [1/0]
+O       10.160.9.0/24 [110/20] via 10.160.6.254, port1, 11:35:35, [1/0]
+                      [110/20] via 10.160.7.254, port2, 11:35:35, [1/0]
+C       10.160.10.0/24 is directly connected, port4
+O       10.160.12.0/24 [110/20] via 10.160.6.254, port1, 11:35:35, [1/0]
+                       [110/20] via 10.160.7.254, port2, 11:35:35, [1/0]
+O       10.160.13.0/24 [110/20] via 10.160.6.254, port1, 11:35:35, [1/0]
+                       [110/20] via 10.160.7.254, port2, 11:35:35, [1/0]
+C       10.190.0.0/24 is directly connected, Lo1-HUB
+S       172.31.254.0/24 [1/0] via S1-MPLS tunnel 10.160.8.1, [1/0]
+                        [1/0] via S1-ISP tunnel 10.160.9.1, [1/0]
+C       172.31.254.1/32 is directly connected, SDWAN-SLA-LO
+C       172.31.255.1/32 is directly connected, VTEP-LO
+B       172.31.255.3/32 [20/0] via 10.10.1.3 (recursive via S1-MPLS tunnel 10.160.8.1), 11:35:01, [1/0]
+                        [20/0] via 10.10.2.3 (recursive via S1-ISP tunnel 10.160.9.1), 11:35:01, [1/0]
+
+HUB (root) # get router info bgp summary
+
+VRF 0 BGP router identifier 10.10.1.1, local AS number 65411
+BGP table version is 12
+6 BGP AS-PATH entries
+0 BGP community entries
+
+Neighbor      V         AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.1.3     4      65412     802     808       12    0    0 11:35:36        3
+10.10.2.3     4      65412     811     807       12    0    0 11:35:30        3
+10.10.3.3     4      65413     788     805       11    0    0 01:11:12        1
+10.10.4.3     4      65413     807     812       12    0    0 01:11:12        1
+10.160.10.254 4      65001     715     809       12    0    0 11:35:46        2
+
+Total number of neighbors 5
+
+
+HUB (root) # get router info ospf neighbor
+OSPF process 0, VRF 0:
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.6.1.2          1   Full/Backup     00:00:39    10.6.1.2        sw1
+10.160.1.254      1   Full/DR         00:00:35    10.160.6.254    port1
+10.160.1.254      1   Full/DR         00:00:35    10.160.7.254    port2
+
+
+
+HUB (root) # get vpn ipsec tunnel summary
+'S1-MPLS' 10.160.8.1:0  selectors(total,up): 1/1  rx(pkt,err): 137963/0  tx(pkt,err): 148401/136
+'S1-ISP' 10.160.9.1:0  selectors(total,up): 1/1  rx(pkt,err): 126621/0  tx(pkt,err): 126615/152
+'S2-EPL_0' 10.160.13.1:0  selectors(total,up): 1/1  rx(pkt,err): 170/0  tx(pkt,err): 169/0
+'S2-ISP_0' 10.160.12.1:0  selectors(total,up): 1/1  rx(pkt,err): 173/0  tx(pkt,err): 172/0
+
+HUB (root) # show system vxlan
+config system vxlan
+    edit "VXLAN1"
+        set interface "VTEP-LO"
+        set vni 1000
+        set remote-ip "172.31.255.3"
+    next
+    edit "VXLAN3"
+        set interface "VTEP-LO"
+        set vni 300
+        set remote-ip "172.31.255.3"
+    next
+end
+
+HUB (root) # diagnose sys sdwan health-check
+Health Check(VPN_SLA):
+Seq(3 S1-MPLS): state(alive), packet-loss(0.000%) latency(12.300), jitter(15.284), mos(4.382), bandwidth-up(999999), bandwidth-dw(999999), bandwidth-bi(1999998) sla_map=0x0
+Seq(2 S1-ISP): state(dead), packet-loss(100.000%) sla_map=0x0
+
+HUB (root) #
+
+AristaHUBsw1#show hostname
+Hostname: AristaHUBsw1
+FQDN:     AristaHUBsw1.contosoxlabs.corp
+AristaHUBsw1#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.2
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw1#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw1#show mlag config-sanity
+No global configuration inconsistencies found.
+
+No per interface configuration inconsistencies found.
+
+AristaHUBsw1#show port-channel summary
+% Invalid input
+AristaHUBsw1#show lacp neighbor
+% Invalid input
+AristaHUBsw1#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0c2d.5f50.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 19 minutes, 52 seconds
+  5 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 78 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 871 bps (0.0% with framing overhead), 1 packets/sec
+     161 packets input, 20498 bytes
+     Received 27 broadcasts, 134 multicast
+     0 input errors, 0 input discards
+     1935 packets output, 212214 bytes
+     Sent 277 broadcasts, 1658 multicast
+     0 output errors, 0 output discards
+AristaHUBsw1#show interfaces Port-Channel2000
+Port-Channel2000 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0c2d.5f50.0009
+  Description: MLAG-PEER-LINK
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet9 , Full-duplex, 1Gb/s
+  ... Ethernet10 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 39 minutes, 13 seconds
+  2 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 1.79 kbps (0.0% with framing overhead), 2 packets/sec
+  5 minutes output rate 2.00 kbps (0.0% with framing overhead), 3 packets/sec
+     7694 packets input, 825549 bytes
+     Received 9 broadcasts, 318 multicast
+     0 input errors, 0 input discards
+     8783 packets output, 905412 bytes
+     Sent 355 broadcasts, 1057 multicast
+     0 output errors, 0 output discards
+AristaHUBsw1#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    PEt1, PEt2, PEt3, PEt4, PEt5
+                                                 PEt6, PEt7, PEt8, Po2000
+100   MGMT                             active    Cpu, Et4, Et5, Et6, Po100
+                                                 Po2000
+200   VXLAN200                         active    Cpu, Po100, Po2000
+300   CORP1                            active    Cpu, Et2, Et7, Po100, Po2000
+400   SERVERS                          active    PEt12, Po100, Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+AristaHUBsw1#
+
+
+AristaHUBsw2#show hostname
+Hostname: AristaHUBsw2
+FQDN:     AristaHUBsw2
+AristaHUBsw2#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw2#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw2#show mlag config-sanity
+No global configuration inconsistencies found.
+
+No per interface configuration inconsistencies found.
+
+AristaHUBsw2#show port-channel summary
+% Invalid input
+AristaHUBsw2#show lacp neighbor
+% Invalid input
+AristaHUBsw2#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 26 minutes, 52 seconds
+  4 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 78 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 102 bps (0.0% with framing overhead), 0 packets/sec
+     176 packets input, 25051 bytes
+     Received 0 broadcasts, 164 multicast
+     0 input errors, 0 input discards
+     202 packets output, 34561 bytes
+     Sent 8 broadcasts, 167 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#show interfaces Port-Channel2000
+Port-Channel2000 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.0009
+  Description: MLAG-PEER-LINK
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet9 , Full-duplex, 1Gb/s
+  ... Ethernet10 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 47 minutes, 30 seconds
+  2 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 1.90 kbps (0.0% with framing overhead), 3 packets/sec
+  5 minutes output rate 1.70 kbps (0.0% with framing overhead), 2 packets/sec
+     10125 packets input, 1021942 bytes
+     Received 428 broadcasts, 1273 multicast
+     0 input errors, 0 input discards
+     8821 packets output, 929482 bytes
+     Sent 9 broadcasts, 384 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    Et1, Et2, Et3, Et4, Et5, Et6
+                                                 Et7, Et8, Po2000
+100   MGMT                             active    PEt4, PEt5, PEt6, Po100, Po2000
+200   VXLAN200                         active    Po100, Po2000
+300   CORP1                            active    PEt2, PEt7, Po100, Po2000
+400   SERVERS                          active    Et12, Po100, Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+
+AristaHUBsw1#show port-channel
+aces Port-Channel100Port Channel Port-Channel100:
+  Active Ports: Ethernet11 PeerEthernet11
+Port Channel Port-Channel2000:
+  Active Ports: Ethernet9 Ethernet10
+AristaHUBsw1#show port-channel dense
+
+                 Flags
+----------------------- ----------------------------- -------------------------
+ a - LACP Active         p - LACP Passive             * - static fallback
+ F - Fallback enabled    f - Fallback configured      ^ - individual fallback
+ U - In Use              D - Down
+ + - In-Sync             - - Out-of-Sync              i - incompatible with agg
+ P - bundled in Po       s - suspended                G - Aggregable
+ I - Individual          S - ShortTimeout             w - wait for agg
+ C - Transmit disabled   M - Exceeds maximum weight
+  E - Inactive. The number of configured port channels exceeds the config limit
+
+Number of channels in use: 2
+Number of aggregators: 2
+
+   Port-Channel       Protocol    Ports
+------------------ -------------- -------------------
+   Po100(U)           LACP(a)     Et11(PG+) PEt11(P)
+   Po2000(U)          LACP(a)     Et9(PG+) Et10(PG+)
+
+AristaHUBsw1#show lacp
+% Incomplete command
+AristaHUBsw1#show lacp interface Ethernet11
+State: A = Active, P = Passive; S=ShortTimeout, L=LongTimeout;
+       G = Aggregable, I = Individual; s+=InSync, s-=OutOfSync;
+       C = Collecting, X = state machine expired,
+       D = Distributing, d = default neighbor state
+             |                        Partner                            Actor
+Port Status  | Sys-id                  Port#  State    OperKey  PortPri  Port#
+---- --------|------------------------ ------ -------- -------- -------- ------
+Port Channel Port-Channel100*:
+Et11 Bundled | FFFF,0c-7e-d8-d5-00-07      1  ALGs+CD   0x0011      255     11
+
+                         |                 Actor
+   Port         Status   |   State         OperKey    PortPriority
+---------- --------------|------------- ------------- ------------
+Port Channel Port-Channel100*:
+   Et11         Bundled  |   ALGs+CD        0x0064           32768
+
+* - Only local interfaces for MLAGs are displayed. Connect to the peer to
+    see the state for peer interfaces.
+AristaHUBsw1#show interfaces Ethernet11
+Ethernet11 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is 0c2d.5f50.000b (bia 0c2d.5f50.000b)
+  Description: TO-FORTIGATE-HUB-PORT8
+  Member of Port-Channel100
+  Ethernet MTU 9214 bytes, BW 1000000 kbit
+  Full-duplex, 1Gb/s, auto negotiation: off, uni-link: n/a
+  Up 1 hour, 5 minutes, 21 seconds
+  Loopback Mode : None
+  4 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 77 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 874 bps (0.0% with framing overhead), 1 packets/sec
+     303 packets input, 40131 bytes
+     Received 27 broadcasts, 276 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     3770 packets output, 412508 bytes
+     Sent 572 broadcasts, 3197 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+AristaHUBsw1#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0c2d.5f50.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 29 minutes, 18 seconds
+  5 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 77 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 874 bps (0.0% with framing overhead), 1 packets/sec
+     199 packets input, 26065 bytes
+     Received 27 broadcasts, 172 multicast
+     0 input errors, 0 input discards
+     2511 packets output, 274805 bytes
+     Sent 367 broadcasts, 2144 multicast
+     0 output errors, 0 output discards
+AristaHUBsw1#
+
+
+AristaHUBsw2#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaHUBsw2#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+AristaHUBsw2#show mlag config-sanity
+No global configuration inconsistencies found.
+
+No per interface configuration inconsistencies found.
+
+AristaHUBsw2#show interfaces Port-Channel100
+Port-Channel100 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.000b
+  Description: FORTIGATE-HUB-MLAG
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet11 , Full-duplex, 1Gb/s
+  ... PeerEthernet11 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 29 minutes, 20 seconds
+  4 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 78 bps (0.0% with framing overhead), 0 packets/sec
+  5 minutes output rate 100 bps (0.0% with framing overhead), 0 packets/sec
+     186 packets input, 26516 bytes
+     Received 0 broadcasts, 174 multicast
+     0 input errors, 0 input discards
+     212 packets output, 36381 bytes
+     Sent 8 broadcasts, 177 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#show interfaces Port-Channel2000
+Port-Channel2000 is up, line protocol is up (connected)
+  Hardware is Port-Channel, address is 0ce2.a530.0009
+  Description: MLAG-PEER-LINK
+  Ethernet MTU 9214 bytes, BW 2000000 kbit
+  Full-duplex, 2Gb/s
+  Active members in this channel: 2
+  ... Ethernet9 , Full-duplex, 1Gb/s
+  ... Ethernet10 , Full-duplex, 1Gb/s
+  Fallback mode is: off
+  Up 49 minutes, 57 seconds
+  2 link status changes since last clear
+  Last clearing of "show interface" counters never
+  5 minutes input rate 1.92 kbps (0.0% with framing overhead), 3 packets/sec
+  5 minutes output rate 1.70 kbps (0.0% with framing overhead), 2 packets/sec
+     10545 packets input, 1058095 bytes
+     Received 463 broadcasts, 1338 multicast
+     0 input errors, 0 input discards
+     9162 packets output, 960936 bytes
+     Sent 9 broadcasts, 403 multicast
+     0 output errors, 0 output discards
+AristaHUBsw2#show vlan
+VLAN  Name                             Status    Ports
+----- -------------------------------- --------- -------------------------------
+1     default                          active    Et1, Et2, Et3, Et4, Et5, Et6
+                                                 Et7, Et8, Po2000
+100   MGMT                             active    PEt4, PEt5, PEt6, Po100, Po2000
+200   VXLAN200                         active    Po100, Po2000
+300   CORP1                            active    PEt2, PEt7, Po100, Po2000
+400   SERVERS                          active    Et12, Po100, Po2000
+4094  MLAG-PEER                        active    Cpu, Po2000
+
+AristaHUBsw2#
+
+
+HUB (root) # diagnose netlink aggregate name HUB-MLAG
+LACP flags: (A|P)(S|F)(A|I)(I|O)(E|D)(E|D)
+(A|P) - LACP mode is Active or Passive
+(S|F) - LACP speed is Slow or Fast
+(A|I) - Aggregatable or Individual
+(I|O) - Port In sync or Out of sync
+(E|D) - Frame collection is Enabled or Disabled
+(E|D) - Frame distribution is Enabled or Disabled
+
+status: up
+npu: n
+flush: n
+asic helper: y
+ports: 2
+link-up-delay: 50ms
+min-links: 1
+ha: master
+distribution algorithm: L4
+LACP mode: active
+LACP speed: slow
+LACP HA: enable
+aggregator ID: 2
+actor key: 17
+actor MAC address: 0c:7e:d8:d5:00:07
+partner key: 100
+partner MAC address: 0e:2d:5f:d2:f9:6b
+
+member: port8
+  index: 0
+  link status: up
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:07
+  LACP state: established
+  LACPDUs RX/TX: 99/145
+  actor state: ASAIEE
+  actor port number/key/priority: 1 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 11 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+member: port9
+  index: 1
+  link status: up
+  link failure count: 1
+  permanent MAC addr: 0c:7e:d8:d5:00:08
+  LACP state: established
+  LACPDUs RX/TX: 98/146
+  actor state: ASAIEE
+  actor port number/key/priority: 2 17 255
+  partner state: ASAIEE
+  partner port number/key/priority: 32779 100 32768
+  partner system: 32768 0e:2d:5f:d2:f9:6b
+  aggregator ID: 2
+  speed/duplex: 1000 1
+  RX state: CURRENT 6
+  MUX state: COLLECTING_DISTRIBUTING 4
+
+
+HUB (root) # get vpn ipsec tunnel summary
+'S1-MPLS' 10.160.8.1:0  selectors(total,up): 1/1  rx(pkt,err): 139793/0  tx(pkt,err): 150397/136
+'S1-ISP' 10.160.9.1:0  selectors(total,up): 1/1  rx(pkt,err): 128406/0  tx(pkt,err): 128399/152
+'S2-EPL_0' 10.160.13.1:0  selectors(total,up): 1/1  rx(pkt,err): 193/0  tx(pkt,err): 192/0
+'S2-ISP_0' 10.160.12.1:0  selectors(total,up): 1/1  rx(pkt,err): 195/0  tx(pkt,err): 194/0
+
+HUB (root) # get router info bgp summary
+
+VRF 0 BGP router identifier 10.10.1.1, local AS number 65411
+BGP table version is 12
+6 BGP AS-PATH entries
+0 BGP community entries
+
+Neighbor      V         AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.1.3     4      65412     813     819       12    0    0 11:45:24        3
+10.10.2.3     4      65412     822     818       12    0    0 11:45:18        3
+10.10.3.3     4      65413     799     817       11    0    0 01:21:00        1
+10.10.4.3     4      65413     818     823       12    0    0 01:21:00        1
+10.160.10.254 4      65001     725     820       12    0    0 11:45:34        2
+
+Total number of neighbors 5
+
+
+HUB (root) # get router info ospf neighbor
+OSPF process 0, VRF 0:
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.6.1.2          1   Full/Backup     00:00:31    10.6.1.2        sw1
+10.160.1.254      1   Full/DR         00:00:37    10.160.6.254    port1
+10.160.1.254      1   Full/DR         00:00:37    10.160.7.254    port2
+
+
+
+HUB (root) # diagnose sys sdwan health-check
+Health Check(VPN_SLA):
+Seq(3 S1-MPLS): state(alive), packet-loss(0.000%) latency(7.204), jitter(4.842), mos(4.396), bandwidth-up(999999), bandwidth-dw(999999), bandwidth-bi(1999998) sla_map=0x0
+Seq(2 S1-ISP): state(dead), packet-loss(100.000%) sla_map=0x0
+
+HUB (root) #
