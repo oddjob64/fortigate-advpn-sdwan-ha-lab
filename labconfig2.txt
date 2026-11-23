@@ -1,0 +1,375 @@
+AristaHUBsw1#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.2
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   2
+
+AristaHUBsw1#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+  101    FORTIGATE-HUB2-HA      active-full     Po101      Po101          up/up
+AristaHUBsw1#show port-channel summary
+% Invalid input
+AristaHUBsw1#show lacp neighbor
+% Invalid input
+AristaHUBsw1#show interfaces trunk
+Port            Mode            Status          Native vlan
+Et1             trunk           trunking        1
+Et7             trunk           trunking        500
+Et12            trunk           trunking        100
+Po100           trunk           trunking        1
+Po101           trunk           trunking        1
+Po2000          trunk           trunking        1
+
+Port            Vlans allowed
+Et1             All
+Et7             100,500
+Et12            100,200,300,400,500,600,700
+Po100           100,200,300,400,500
+Po101           100,200,300,400,500
+Po2000          All
+
+Port            Vlans allowed and active in management domain
+Et1             None
+Et7             100,500
+Et12            None
+Po100           100,200,300,400,500
+Po101           100,200,300,400,500
+Po2000          1,100,200,300,400,500,600,700,4094
+
+Port            Vlans in spanning tree forwarding state
+Et1             None
+Et7             100,500
+Et12            None
+Po100           100,200,300,400,500
+Po101           100,200,300,400,500
+Po2000          1,100,200,300,400,500,600,700,4094
+AristaHUBsw1#show spanning-tree
+MST0
+  Spanning tree enabled protocol mstp
+  Root ID    Priority    32768
+             Address     0e2d.5fd2.f96b
+             This bridge is the root
+
+  Bridge ID  Priority    32768  (priority 32768 sys-id-ext 0)
+             Address     0e2d.5fd2.f96b
+             Hello Time  2.000 sec  Max Age 20 sec  Forward Delay 15 sec
+
+Interface        Role       State      Cost      Prio.Nbr Type
+---------------- ---------- ---------- --------- -------- --------------------
+Et2              designated forwarding 20000     128.2    P2p Edge
+Et3              designated forwarding 20000     128.3    P2p Edge (portfast)
+Et4              designated forwarding 20000     128.4    P2p Edge (portfast)
+Et5              designated forwarding 20000     128.5    P2p Edge (portfast)
+Et6              designated forwarding 20000     128.6    P2p Edge (portfast)
+Et7              designated forwarding 20000     128.7    P2p Edge (portfast)
+PEt2             designated forwarding 20000     128.202  P2p Edge
+PEt3             designated forwarding 20000     128.203  P2p Edge (portfast)
+PEt4             designated forwarding 20000     128.204  P2p Edge (portfast)
+PEt5             designated forwarding 20000     128.205  P2p Edge (portfast)
+PEt8             designated forwarding 20000     128.208  P2p Edge
+Po100            designated forwarding 19999     128.100  P2p Edge
+Po101            designated forwarding 19999     128.103  P2p Edge
+
+AristaHUBsw1#
+
+
+AristaHUBsw2#show mlag
+MLAG Configuration:
+domain-id                          :            HUB-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.100.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:2d:5f:d2:f9:6b
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   2
+
+AristaHUBsw2#show mlag interfaces
+                                                                   local/remote
+ mlag    desc                         state     local     remote         status
+------- --------------------- --------------- --------- ---------- ------------
+  100    FORTIGATE-HUB-MLAG     active-full     Po100      Po100          up/up
+  101    FORTIGATE-HUB2-HA      active-full     Po101      Po101          up/up
+AristaHUBsw2#show port-channel summary
+% Invalid input
+AristaHUBsw2#show lacp neighbor
+% Invalid input
+AristaHUBsw2#show interfaces trunk
+Port            Mode            Status          Native vlan
+Et1             trunk           trunking        1
+Et7             trunk           trunking        500
+Et12            trunk           trunking        100
+Po100           trunk           trunking        1
+Po101           trunk           trunking        1
+Po2000          trunk           trunking        1
+
+Port            Vlans allowed
+Et1             All
+Et7             100,500
+Et12            100,200,300,400,500,600,700
+Po100           100,200,300,400,500
+Po101           100,200,300,400,500
+Po2000          All
+
+Port            Vlans allowed and active in management domain
+Et1             None
+Et7             None
+Et12            None
+Po100           100,200,300,400,500
+Po101           100,200,300,400,500
+Po2000          1,100,200,300,400,500,600,700,4094
+
+Port            Vlans in spanning tree forwarding state
+Et1             None
+Et7             None
+Et12            None
+Po100           100,200,300,400,500
+Po101           100,200,300,400,500
+Po2000          1,100,200,300,400,500,600,700,4094
+AristaHUBsw2#show spanning-tree
+MST0
+  Spanning tree enabled protocol mstp
+  Root ID    Priority    32768
+             Address     0e2d.5fd2.f96b
+             This bridge is the root
+
+  Bridge ID  Priority    32768  (priority 32768 sys-id-ext 0)
+             Address     0e2d.5fd2.f96b
+             Hello Time  2.000 sec  Max Age 20 sec  Forward Delay 15 sec
+
+Interface        Role       State      Cost      Prio.Nbr Type
+---------------- ---------- ---------- --------- -------- --------------------
+Et2              designated forwarding 20000     128.202  P2p Edge
+Et3              designated forwarding 20000     128.203  P2p Edge (portfast)
+Et4              designated forwarding 20000     128.204  P2p Edge (portfast)
+Et5              designated forwarding 20000     128.205  P2p Edge (portfast)
+Et8              designated forwarding 20000     128.208  P2p Edge
+PEt2             designated forwarding 20000     128.2    P2p Edge
+PEt3             designated forwarding 20000     128.3    P2p Edge (portfast)
+PEt4             designated forwarding 20000     128.4    P2p Edge (portfast)
+PEt5             designated forwarding 20000     128.5    P2p Edge (portfast)
+PEt6             designated forwarding 20000     128.6    P2p Edge (portfast)
+PEt7             designated forwarding 20000     128.7    P2p Edge (portfast)
+Po100            designated forwarding 19999     128.100  P2p Edge
+Po101            designated forwarding 19999     128.103  P2p Edge
+
+AristaHUBsw2#
+
+
+AristaSPOKEsw1#show mlag
+MLAG Configuration:
+domain-id                          :         SPOKE1-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.200.2
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:30:91:af:77:b3
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaSPOKEsw1#show mlag interfaces
+                                                                   local/remote
+  mlag     desc                      state     local     remote          status
+-------- ------------------- --------------- --------- ----------- ------------
+   100     SPOKE1-FGT-MLAG     active-full     Po100      Po100           up/up
+AristaSPOKEsw1#show port-channel summary
+% Invalid input
+AristaSPOKEsw1#show lacp neighbor
+% Invalid input
+AristaSPOKEsw1#show interfaces trunk
+Port            Mode            Status          Native vlan
+Et1             trunk           trunking        100
+Et3             trunk           trunking        300
+Et7             trunk           trunking        500
+Po100           trunk           trunking        1
+Po2000          trunk           trunking        1
+
+Port            Vlans allowed
+Et1             100
+Et3             100,300
+Et7             100,500
+Po100           100,200,300,500
+Po2000          100,200,300,500,4094
+
+Port            Vlans allowed and active in management domain
+Et1             100
+Et3             100,300
+Et7             None
+Po100           100,200,300,500
+Po2000          100,200,300,500,4094
+
+Port            Vlans in spanning tree forwarding state
+Et1             100
+Et3             100,300
+Et7             None
+Po100           100,200,300,500
+Po2000          100,200,300,500,4094
+AristaSPOKEsw1#show spanning-tree
+MST0
+  Spanning tree enabled protocol mstp
+  Root ID    Priority    32768
+             Address     0e30.91af.77b3
+             This bridge is the root
+
+  Bridge ID  Priority    32768  (priority 32768 sys-id-ext 0)
+             Address     0e30.91af.77b3
+             Hello Time  2.000 sec  Max Age 20 sec  Forward Delay 15 sec
+
+Interface        Role       State      Cost      Prio.Nbr Type
+---------------- ---------- ---------- --------- -------- --------------------
+Et1              designated forwarding 20000     128.1    P2p Edge
+Et2              designated forwarding 20000     128.2    P2p Edge
+Et3              designated forwarding 20000     128.3    P2p Edge (portfast)
+Et4              designated forwarding 20000     128.4    P2p Edge
+Et5              designated forwarding 20000     128.5    P2p Edge
+Et8              designated forwarding 20000     128.8    P2p Edge (portfast)
+Et12             designated forwarding 20000     128.12   P2p Edge
+PEt2             designated forwarding 20000     128.202  P2p Edge
+PEt3             designated forwarding 20000     128.203  P2p Edge
+PEt4             designated forwarding 20000     128.204  P2p Edge
+PEt5             designated forwarding 20000     128.205  P2p Edge
+PEt6             designated forwarding 20000     128.206  P2p Edge
+PEt12            designated forwarding 20000     128.212  P2p Edge
+Po100            designated forwarding 19999     128.103  P2p Edge
+
+AristaSPOKEsw1#
+
+AristaSPOKEsw2#show mlag
+MLAG Configuration:
+domain-id                          :         SPOKE1-MLAG
+local-interface                    :            Vlan4094
+peer-address                       :       169.254.200.1
+peer-link                          :    Port-Channel2000
+hb-peer-address                    :             0.0.0.0
+peer-config                        :          consistent
+
+MLAG Status:
+state                              :              Active
+negotiation status                 :           Connected
+peer-link status                   :                  Up
+local-int status                   :                  Up
+system-id                          :   0e:30:91:af:77:b3
+dual-primary detection             :            Disabled
+dual-primary interface errdisabled :               False
+
+MLAG Ports:
+Disabled                           :                   0
+Configured                         :                   0
+Inactive                           :                   0
+Active-partial                     :                   0
+Active-full                        :                   1
+
+AristaSPOKEsw2#show mlag interfaces
+                                                                   local/remote
+  mlag     desc                      state     local     remote          status
+-------- ------------------- --------------- --------- ----------- ------------
+   100     SPOKE1-FGT-MLAG     active-full     Po100      Po100           up/up
+AristaSPOKEsw2#show port-channel summary
+% Invalid input
+AristaSPOKEsw2#show lacp neighbor
+% Invalid input
+AristaSPOKEsw2#show interfaces trunk
+Port            Mode            Status          Native vlan
+Et7             trunk           trunking        500
+Et11            trunk           trunking        1
+Po100           trunk           trunking        1
+Po2000          trunk           trunking        1
+
+Port            Vlans allowed
+Et7             100,500
+Et11            100,200,300,500
+Po100           100,200,300,500
+Po2000          100,200,300,500,4094
+
+Port            Vlans allowed and active in management domain
+Et7             None
+Et11            None
+Po100           100,200,300,500
+Po2000          100,200,300,500,4094
+
+Port            Vlans in spanning tree forwarding state
+Et7             None
+Et11            None
+Po100           100,200,300,500
+Po2000          100,200,300,500,4094
+AristaSPOKEsw2#show spanning-tree
+MST0
+  Spanning tree enabled protocol mstp
+  Root ID    Priority    32768
+             Address     0e30.91af.77b3
+             This bridge is the root
+
+  Bridge ID  Priority    32768  (priority 32768 sys-id-ext 0)
+             Address     0e30.91af.77b3
+             Hello Time  2.000 sec  Max Age 20 sec  Forward Delay 15 sec
+
+Interface        Role       State      Cost      Prio.Nbr Type
+---------------- ---------- ---------- --------- -------- --------------------
+Et2              designated forwarding 20000     128.202  P2p Edge
+Et3              designated forwarding 20000     128.203  P2p Edge
+Et4              designated forwarding 20000     128.204  P2p Edge
+Et5              designated forwarding 20000     128.205  P2p Edge
+Et6              designated forwarding 20000     128.206  P2p Edge
+Et12             designated forwarding 20000     128.212  P2p Edge
+PEt1             designated forwarding 20000     128.1    P2p Edge
+PEt2             designated forwarding 20000     128.2    P2p Edge
+PEt3             designated forwarding 20000     128.3    P2p Edge (portfast)
+PEt4             designated forwarding 20000     128.4    P2p Edge
+PEt5             designated forwarding 20000     128.5    P2p Edge
+PEt8             designated forwarding 20000     128.8    P2p Edge (portfast)
+PEt12            designated forwarding 20000     128.12   P2p Edge
+Po100            designated forwarding 19999     128.103  P2p Edge
+
+AristaSPOKEsw2#
+
+

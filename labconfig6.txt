@@ -1,0 +1,183 @@
+HUB1 (global) # get system ha status
+HA Health Status: OK
+Model: FortiGate-VM64-KVM
+Mode: HA A-P
+Group Name: HUB-HA
+Group ID: 10
+Debug: 0
+Cluster Uptime: 0 days 2h:40m:40s
+Cluster state change time: 2026-11-02 19:16:23
+Primary selected using:
+    <2026/11/02 19:16:23> vcluster-1: FGVMELTM26016920 is selected as the primary because its uptime is larger than peer mem                                                                                                                                                   ber FGVMELTM26016918.
+ses_pickup: enable, ses_pickup_delay=disable
+override: disable
+Configuration Status:
+    FGVMELTM26016918(updated 3 seconds ago): in-sync
+    FGVMELTM26016918 chksum dump: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+    FGVMELTM26016920(updated 4 seconds ago): in-sync
+    FGVMELTM26016920 chksum dump: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+System Usage stats:
+    FGVMELTM26016918(updated 3 seconds ago):
+        sessions=3, average-cpu-user/nice/system/idle=0%/0%/0%/99%, memory=43%
+    FGVMELTM26016920(updated 4 seconds ago):
+        sessions=63, average-cpu-user/nice/system/idle=0%/0%/0%/95%, memory=47%
+HBDEV stats:
+    FGVMELTM26016918(updated 3 seconds ago):
+        port6: physical/1000auto, up, rx-bytes/packets/dropped/errors=1115889/1580/0/0, tx=368861/1288/0/0
+        port7: physical/1000auto, up, rx-bytes/packets/dropped/errors=386415/831/0/0, tx=278006/607/0/0
+    FGVMELTM26016920(updated 4 seconds ago):
+        port6: physical/1000auto, up, rx-bytes/packets/dropped/errors=18355895/21968/0/0, tx=9234719/24412/0/0
+        port7: physical/1000auto, up, rx-bytes/packets/dropped/errors=3718887/8039/0/0, tx=7739338/16725/0/0
+number of member: 2
+HUB1            , FGVMELTM26016918, HA cluster index = 1
+HUB2            , FGVMELTM26016920, HA cluster index = 0
+number of vcluster: 1
+vcluster 1: standby 169.254.0.1
+Secondary: FGVMELTM26016918, HA operating index = 1
+Primary: FGVMELTM26016920, HA operating index = 0
+
+HUB1 (global) # diagnose sys ha checksum cluster
+
+================== FGVMELTM26016918 ==================
+
+is_manage_primary()=0, is_root_primary()=0
+debugzone
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+checksum
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+================== FGVMELTM26016920 ==================
+
+is_manage_primary()=1, is_root_primary()=1
+debugzone
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+checksum
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+HUB1 (global) #
+
+
+
+HUB2 (global) # get system ha status
+HA Health Status: OK
+Model: FortiGate-VM64-KVM
+Mode: HA A-P
+Group Name: HUB-HA
+Group ID: 10
+Debug: 0
+Cluster Uptime: 0 days 2h:43m:40s
+Cluster state change time: 2026-11-02 19:16:24
+Primary selected using:
+    <2026/11/02 19:16:24> vcluster-1: FGVMELTM26016920 is selected as the primary because its uptime is larger than peer member FGVMELTM26016918.
+    <2026/11/02 18:46:47> vcluster-1: FGVMELTM26016920 is selected as the primary because it's the only member in the cluster.
+    <2026/11/02 18:46:38> vcluster-1: FGVMELTM26016920 is selected as the primary because SET_AS_SECONDARY flag is set on peer member FGVMELTM26016918.
+    <2026/11/02 18:22:45> vcluster-1: FGVMELTM26016918 is selected as the primary because its uptime is larger than peer member FGVMELTM26016920.
+ses_pickup: enable, ses_pickup_delay=disable
+override: disable
+Configuration Status:
+    FGVMELTM26016920(updated 3 seconds ago): in-sync
+    FGVMELTM26016920 chksum dump: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+    FGVMELTM26016918(updated 2 seconds ago): in-sync
+    FGVMELTM26016918 chksum dump: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+System Usage stats:
+    FGVMELTM26016920(updated 3 seconds ago):
+        sessions=52, average-cpu-user/nice/system/idle=0%/0%/1%/93%, memory=47%
+    FGVMELTM26016918(updated 2 seconds ago):
+        sessions=3, average-cpu-user/nice/system/idle=0%/0%/1%/98%, memory=44%
+HBDEV stats:
+    FGVMELTM26016920(updated 3 seconds ago):
+        port6: physical/1000auto, up, rx-bytes/packets/dropped/errors=18810146/23095/0/0, tx=9829832/25619/0/0
+        port7: physical/1000auto, up, rx-bytes/packets/dropped/errors=4131087/8939/0/0, tx=8158303/17626/0/0
+    FGVMELTM26016918(updated 2 seconds ago):
+        port6: physical/1000auto, up, rx-bytes/packets/dropped/errors=1710677/2787/0/0, tx=823112/2415/0/0
+        port7: physical/1000auto, up, rx-bytes/packets/dropped/errors=804915/1731/0/0, tx=690206/1507/0/0
+number of member: 2
+HUB2            , FGVMELTM26016920, HA cluster index = 0
+HUB1            , FGVMELTM26016918, HA cluster index = 1
+number of vcluster: 1
+vcluster 1: work 169.254.0.1
+Primary: FGVMELTM26016920, HA operating index = 0
+Secondary: FGVMELTM26016918, HA operating index = 1
+
+HUB2 (global) # diagnose sys ha checksum cluster
+
+================== FGVMELTM26016920 ==================
+
+is_manage_primary()=1, is_root_primary()=1
+debugzone
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+checksum
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+================== FGVMELTM26016918 ==================
+
+is_manage_primary()=0, is_root_primary()=0
+debugzone
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+checksum
+global: fb 40 88 1e 2c e6 21 89 8f f4 c3 67 c9 ab 13 24
+root: ed 8e e5 ff 35 83 05 dc 69 27 37 aa d2 ac f4 4f
+all: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+
+HUB2 (global) #
+
+
+HUB1 (global) # get system ha status
+HA Health Status: OK
+Model: FortiGate-VM64-KVM
+Mode: HA A-P
+Group Name: HUB-HA
+Group ID: 10
+Debug: 0
+Cluster Uptime: 0 days 2h:45m:18s
+Cluster state change time: 2026-11-02 19:22:48
+Primary selected using:
+    <2026/11/02 19:22:48> vcluster-1: FGVMELTM26016918 is selected as the primary because EXE_FAIL_OVER flag is set on peer member FGVMELTM26016920.
+    <2026/11/02 19:16:23> vcluster-1: FGVMELTM26016920 is selected as the primary because its uptime is larger than peer member FGVMELTM26016918.
+ses_pickup: enable, ses_pickup_delay=disable
+override: disable
+Configuration Status:
+    FGVMELTM26016918(updated 4 seconds ago): in-sync
+    FGVMELTM26016918 chksum dump: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+    FGVMELTM26016920(updated 0 seconds ago): in-sync
+    FGVMELTM26016920 chksum dump: 64 4c 32 a5 ec 83 4f 53 d5 52 fd 7b 10 55 40 d0
+System Usage stats:
+    FGVMELTM26016918(updated 4 seconds ago):
+        sessions=49, average-cpu-user/nice/system/idle=7%/0%/32%/45%, memory=44%
+    FGVMELTM26016920(updated 0 seconds ago):
+        sessions=44, average-cpu-user/nice/system/idle=0%/0%/0%/95%, memory=46%
+HBDEV stats:
+    FGVMELTM26016918(updated 4 seconds ago):
+        port6: physical/1000auto, up, rx-bytes/packets/dropped/errors=2038044/3534/0/0, tx=1105910/3115/0/0
+        port7: physical/1000auto, up, rx-bytes/packets/dropped/errors=1029255/2214/0/0, tx=909818/1986/0/0
+    FGVMELTM26016920(updated 0 seconds ago):
+        port6: physical/1000auto, up, rx-bytes/packets/dropped/errors=19109897/23838/0/0, tx=10170730/26405/0/0
+        port7: physical/1000auto, up, rx-bytes/packets/dropped/errors=4362254/9443/0/0, tx=8394158/18134/0/0
+number of member: 2
+HUB1            , FGVMELTM26016918, HA cluster index = 1
+HUB2            , FGVMELTM26016920, HA cluster index = 0
+number of vcluster: 1
+vcluster 1: work 169.254.0.2
+Primary: FGVMELTM26016918, HA operating index = 0
+Secondary: FGVMELTM26016920, HA operating index = 1
+
+HUB1 (global) #
+
